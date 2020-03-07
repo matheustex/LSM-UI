@@ -1,0 +1,40 @@
+@import '@angular/material/prebuilt-themes/pink-bluegrey.css';
+
+html, body {  
+  height: 100vh;
+  overflow: hidden;
+}
+
+#app-content {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  // width: 100vw;
+  // height: 100vh;
+  overflow: auto;
+}
+
+.mat-sidenav {
+  width: 400px;
+  height: 300px;
+}
+
+.mat-sidenav-container {
+  height: 100vh;
+  width: 100%;
+}
+
+.mat-sidenav-content {  
+  margin-top: 20px;
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 90%;
+}
+
+table {
+  width: 100%;
+}
+
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
