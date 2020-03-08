@@ -1,4 +1,5 @@
-@import '@angular/material/prebuilt-themes/pink-bluegrey.css';
+@import "~bootstrap/dist/css/bootstrap.css";
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 html, body {  
   height: 100vh;
@@ -38,3 +39,7 @@ table {
 }
 
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.pointer {
+  cursor: pointer;
+}

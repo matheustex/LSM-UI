@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrdersComponent implements OnInit {
   orders: any = [];
-  displayedColumns: string[] = ['ID', 'Name', 'Total', 'Status'];
+  displayedColumns: string[] = ['Name', 'Day', 'Total', 'Status'];
 
   constructor(
     private ordersService: OrdersService
@@ -16,20 +16,8 @@ export class OrdersComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('here');
-    this.orders = [
-      {
-        ID: 1,
-        name: 'teste',
-        Total: 'teste',
-        Status: 'New'
-      },
-      {
-        ID: 1,
-        name: 'teste',
-        Total: 'teste',
-        Status: 'New'
-      }
-    ]; // this.ordersService.listOrders().subscribe(x => x);
+
+    this.ordersService.listOrders().subscribe(x => this.orders = x);
   }
 
 }

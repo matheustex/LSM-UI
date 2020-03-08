@@ -1,1 +1,86 @@
-<p>items works!</p>
+<mat-card class="pb-10">
+  <div class="row">
+    <mat-card-header>
+      <mat-card-title class="card-container-left">Controle Diário</mat-card-title>
+      <mat-card-subtitle>Visualização das planilhas diárias e controle</mat-card-subtitle>          
+    </mat-card-header>
+
+    <span class="fill-remaining-space"></span>
+      <a [routerLink]="['new']">
+        <button mat-raised-button color="primary" class="pb-2 pt-2">FECHAR</button>  
+      </a>  
+  </div>
+</mat-card>
+
+<mat-card class="example-card">
+  <mat-horizontal-stepper class="mt-20" [linear]="true" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+        <ng-template matStepLabel>Iniciada</ng-template>  
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+        <ng-template matStepLabel>Pendente</ng-template>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <ng-template matStepLabel>Fechada</ng-template>
+    </mat-step>
+  </mat-horizontal-stepper>
+
+  <div class="row mt-10">
+    <mat-card-header class="mr-10">    
+      <mat-card-title>Data</mat-card-title>
+      <mat-card-subtitle>{{order.related | date:'dd/mm/yyyy' }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-header class="mr-10">    
+      <mat-card-title>Quantidade</mat-card-title>
+      <mat-card-subtitle>{{order.quantity }} </mat-card-subtitle>
+    </mat-card-header>    
+
+    <mat-card-header class="mr-10">    
+      <mat-card-title>Total</mat-card-title>
+      <mat-card-subtitle>{{order.total | currency:'BRL'}}</mat-card-subtitle>
+    </mat-card-header>
+    
+    <span class="fill-remaining-space"></span>    
+      <button (click)="openItemModal()" mat-raised-button color="primary" class="pb-2 pt-2">NOVO ITEM</button>      
+  </div>  
+</mat-card>
+
+
+
+<table mat-table [dataSource]="items" class="mat-elevation-z8">
+  <ng-container matColumnDef="Type">
+    <th mat-header-cell *matHeaderCellDef> PRODUTO </th>
+    <td mat-cell *matCellDef="let element"> {{element.name }} </td>
+  </ng-container>
+
+    <ng-container matColumnDef="Sector">
+    <th mat-header-cell *matHeaderCellDef> SETOR </th>
+    <td mat-cell *matCellDef="let element"> {{element.name }} </td>
+  </ng-container>
+
+    <ng-container matColumnDef="Dep">
+    <th mat-header-cell *matHeaderCellDef> DEPARTAMENTO </th>
+    <td mat-cell *matCellDef="let element"> {{element.name }} </td>
+  </ng-container>
+
+    <ng-container matColumnDef="Quantity">
+    <th mat-header-cell *matHeaderCellDef> QUANTIDADE </th>
+    <td mat-cell *matCellDef="let element"> {{element.name }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Value">
+    <th mat-header-cell *matHeaderCellDef> VALOR </th>
+    <td mat-cell *matCellDef="let element"> {{element.name }} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row class="pointer" *matRowDef="let row; columns: displayedColumns;" [routerLink]="[row.id, 'items']"></tr>
+</table>
+
+<mat-card *ngIf="isLoading" class="justify-content-center">
+  <mat-progress-spinner 
+    color="primary" 
+    mode="indeterminate">
+  </mat-progress-spinner>
+</mat-card>

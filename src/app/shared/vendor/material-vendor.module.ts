@@ -66,6 +66,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { CdkTableModule } from '@angular/cdk/table';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 
 const modules: any[] = [
 
@@ -85,6 +86,7 @@ const modules: any[] = [
   MatSidenavModule,
   MatToolbarModule,
 
+  MatNativeDateModule,
   MatCardModule,
   MatDividerModule,
   MatExpansionModule,
@@ -116,6 +118,10 @@ const modules: any[] = [
 
 @NgModule({
   imports: [...modules],
-  exports: [...modules]
+  exports: [...modules],
+  providers: [
+    MatDatepickerModule,
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }
+  ]
 })
 export class MaterialModule { }

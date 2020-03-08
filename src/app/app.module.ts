@@ -1,6 +1,6 @@
 import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
-import { MaterialModule } from './shared/material-vendor.module';
+import { MaterialModule } from './shared/vendor/material-vendor.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -10,12 +10,15 @@ import { AppComponent } from './app.component';
 import { OrdersComponent } from './views/orders/orders.component';
 import { ItemsComponent } from './views/items/items.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { OrdersNewComponent } from './views/orders/orders-new/orders-new.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     OrdersComponent,
-    ItemsComponent
+    ItemsComponent,
+    OrdersNewComponent
   ],
   imports: [
     MaterialModule,
@@ -24,7 +27,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     RouterModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

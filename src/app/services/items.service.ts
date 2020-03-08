@@ -8,10 +8,10 @@ import { Observable } from 'rxjs/internal/Observable';
   providedIn: 'root'
 })
 
-export class OrdersService {
+export class ItemsService {
   constructor(private http: HttpClient) { }
 
-  createOrder(body: Order) {
+  createItem(body: Order) {
     return this.http.post(environment.ordersApi, JSON.stringify(body), {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ export class OrdersService {
     });
   }
 
-  listOrders() {
+  listItemsByOrderId() {
     return this.http.get(environment.ordersApi, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export class OrdersService {
     });
   }
 
-  getOrder(id: string): Observable<any> {
+  getItem(id: string): Observable<any> {
     return this.http.get(environment.ordersApi + `/${id}`, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
