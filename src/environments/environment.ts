@@ -5,7 +5,10 @@ const apiUrl = 'https://805ikd6ni9.execute-api.us-east-2.amazonaws.com/dev/';
 
 export const environment = {
   production: false,
-  ordersApi: apiUrl + 'orders'
+  ordersApi: apiUrl + 'orders',
+  sectorsApi: apiUrl + 'sectors',
+  departmentsApi: apiUrl + 'departments',
+  itemsApi: apiUrl + 'items',
 };
 
 /*

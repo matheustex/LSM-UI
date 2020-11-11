@@ -1,13 +1,12 @@
 <mat-card class="example-card">
-  <mat-card-header>    
-    <mat-card-title>NOVO ITEM</mat-card-title>    
+  <mat-card-header>
+    <mat-card-title>NOVO ITEM</mat-card-title>
   </mat-card-header>
 
   <div class="row justify-content-start">
-    <form [formGroup]="options">
-      <mat-form-field appearance="fill"
-          [hideRequiredMarker]="hideRequiredControl.value"
-          [floatLabel]="floatLabelControl.value">
+    <form>
+      <mat-form-field appearance="fill" [hideRequiredMarker]="hideRequiredControl.value"
+        [floatLabel]="floatLabelControl.value">
         <input matInput placeholder="Simple placeholder" required>
       </mat-form-field>
 
@@ -16,19 +15,20 @@
         <input matInput placeholder="Simple placeholder">
       </mat-form-field>
 
-      <mat-form-field appearance="fill"
-          [hideRequiredMarker]="hideRequiredControl.value"
-          [floatLabel]="floatLabelControl.value">
+      <mat-form-field appearance="fill" [hideRequiredMarker]="hideRequiredControl.value"
+        [floatLabel]="floatLabelControl.value">
         <mat-select required>
           <mat-option>-- None --</mat-option>
           <mat-option value="option">Option</mat-option>
         </mat-select>
-        <mat-label><mat-icon>favorite</mat-icon> <b> Fancy</b> <i> label</i></mat-label>
+        <mat-label>
+          <mat-icon>favorite</mat-icon> <b> Fancy</b> <i> label</i>
+        </mat-label>
       </mat-form-field>
     </form>
   </div>
 
   <mat-card-actions>
-    <button mat-button (click)="closeModal()">INCLUIR</button>    
+    <button mat-button (click)="closeModal()">INCLUIR</button>
   </mat-card-actions>
 </mat-card>
