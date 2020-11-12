@@ -1,3 +1,4 @@
+import { Product } from './../../shared/models/product';
 import { MatTableDataSource } from '@angular/material/table';
 import { SectorsService } from './../../services/sectors.service';
 import { Department } from './../../shared/models/department';
@@ -20,22 +21,26 @@ import { tap } from 'rxjs/operators';
 })
 export class ItemsComponent implements OnInit {
   itemForm = new FormGroup({
-    quantity: new FormControl(new Date(), [Validators.required]),
-    sector: new FormControl('', [Validators.required]),
-    department: new FormControl('')
+    productId: new FormControl('1', [Validators.required]),
+    quantity: new FormControl('0', [Validators.required]),
+    sectorId: new FormControl('', [Validators.required]),
+    departmentId: new FormControl('', [Validators.required])
   });
 
-  dataSource = new MatTableDataSource<Item>();
+  dataSource = new MatTableDataSource<any>();
 
   order: Order = new Order();
   items: Item[] = [];
   sectors: Sector[] = [];
   departments: Department[] = [];
+  products: Product[] = [{id: '1', name: 'Galão 20L', value: 10}];
+  list: any[] = [];
 
+  selectedProduct: string;
   selectedSector: string;
   selectedDepartment: string;
 
-  displayedColumns = ['Type', 'Sector', 'Dep', 'Quantity', 'Value'];
+  displayedColumns = ['Type', 'Sector', 'Dep', 'Quantity'];
   isLoading = true;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -58,6 +63,8 @@ export class ItemsComponent implements OnInit {
   ngOnInit(): void {
     this.getOrder();
     this.getSectors();
+
+    this.selectedProduct = '1';
 
     this.firstFormGroup = this.formBuilder.group({
       firstCtrl: ['', Validators.required]
@@ -121,29 +128,33 @@ export class ItemsComponent implements OnInit {
   onSubmit() {
     if (this.itemForm.valid) {
 
-      const { quantity, department, sector } = this.itemForm.value;
+      const { quantity, departmentId, sectorId, productId } = this.itemForm.value;
 
       const item = new Item();
 
       item.quantity = quantity;
-      item.departmentId = department;
-      item.sectorId = sector;
-
+      item.departmentId = departmentId;
+      item.sectorId = sectorId;
+      item.productId = productId;
       this.items.push(item);
 
-      console.log('including new item');
-      console.log(this.items);
+      const itemList = {
+          sectorName: this.sectors.find(sector => sector.id === sectorId).name.toUpperCase(),
+          depName: this.sectors.find(dep => dep.id === departmentId).name.toUpperCase(),
+          productName: this.products.find(prod => prod.id === productId).name.toUpperCase(),
+          ...item
+      };
 
+      this.list.push(itemList);
       this.changeDetectorRefs.detectChanges();
 
-      this.dataSource.data = this.items;
-      // return this.itemsService.save()
-      //   .pipe(
-      //     tap(() =>
-      //       this.snackBar.open('Planilha iniciada com sucesso')
-      //     )
-      //   )
+      this.dataSource.data = this.list;
     }
+  }
+
+  getSectorName(id) {
+    console.log('render');
+    return this.sectors.find(sector => sector.id === id).name;
   }
 
 }

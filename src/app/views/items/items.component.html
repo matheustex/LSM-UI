@@ -33,7 +33,7 @@
 
     <mat-card-header class="mr-10">
       <mat-card-title>Quantidade</mat-card-title>
-      <mat-card-subtitle>{{order.quantity }} </mat-card-subtitle>
+      <mat-card-subtitle>{{items.length }} </mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-header class="mr-10">
@@ -45,7 +45,16 @@
 
 <div [formGroup]="itemForm">
   <mat-card>
-    <mat-form-field class="example-full-width mr-2">
+    <mat-form-field class="full-width mr-2">
+      <mat-label>Produto</mat-label>
+      <mat-select [(ngModel)]="selectedProduct" formControlName="productId">
+        <mat-option *ngFor="let prod of products" [value]="prod.id">
+          {{prod.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="full-width mr-2">
       <mat-label>Quantidade</mat-label>
       <input matInput placeholder="Quantidade" formControlName="quantity" required>
       <mat-error>
@@ -53,18 +62,18 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="example-full-width mr-2">
+    <mat-form-field class="full-width mr-2">
       <mat-label>Setor</mat-label>
-      <mat-select [(ngModel)]="selectedSector" formControlName="sector">
+      <mat-select [(ngModel)]="selectedSector" formControlName="sectorId">
         <mat-option *ngFor="let sector of sectors" [value]="sector.id">
           {{sector.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field class="example-full-width mr-4">
+    <mat-form-field class="full-width mr-4">
       <mat-label>Departamento</mat-label>
-      <mat-select [(ngModel)]="selectedDepartment" formControlName="department">
+      <mat-select [(ngModel)]="selectedDepartment" formControlName="departmentId">
         <mat-option *ngFor="let dep of sectors" [value]="dep.id">
           {{dep.name}}
         </mat-option>
@@ -78,29 +87,24 @@
 
 
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-  <ng-container matColumnDef="Type">
-    <th mat-header-cell *matHeaderCellDef> PRODUTO </th>
-    <td mat-cell *matCellDef="let element"> {{element.name }} </td>
-  </ng-container>
-
   <ng-container matColumnDef="Sector">
     <th mat-header-cell *matHeaderCellDef> SETOR </th>
-    <td mat-cell *matCellDef="let element"> {{element.sectorId }} </td>
+    <td mat-cell *matCellDef="let element"> {{element.sectorName}} </td>
   </ng-container>
 
   <ng-container matColumnDef="Dep">
     <th mat-header-cell *matHeaderCellDef> DEPARTAMENTO </th>
-    <td mat-cell *matCellDef="let element"> {{element.name }} </td>
+    <td mat-cell *matCellDef="let element"> {{element.depName }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Type">
+    <th mat-header-cell *matHeaderCellDef> PRODUTO </th>
+    <td mat-cell *matCellDef="let element"> {{element.productName}} </td>
   </ng-container>
 
   <ng-container matColumnDef="Quantity">
     <th mat-header-cell *matHeaderCellDef> QUANTIDADE </th>
-    <td mat-cell *matCellDef="let element"> {{element.name }} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="Value">
-    <th mat-header-cell *matHeaderCellDef> VALOR </th>
-    <td mat-cell *matCellDef="let element"> {{element.name }} </td>
+    <td mat-cell *matCellDef="let element"> {{element.quantity }} </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
