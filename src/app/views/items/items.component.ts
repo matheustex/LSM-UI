@@ -1,3 +1,4 @@
+import { DepartmentsService } from './../../services/departments.service';
 import { Product } from './../../shared/models/product';
 import { MatTableDataSource } from '@angular/material/table';
 import { SectorsService } from './../../services/sectors.service';
@@ -8,11 +9,12 @@ import { OrdersService } from './../../services/orders.service';
 import { Item } from './../../shared/models/item';
 import { Order } from 'src/app/shared/models/order';
 import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ItemsService } from 'src/app/services/items.service';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { tap } from 'rxjs/operators';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-items',
@@ -28,6 +30,8 @@ export class ItemsComponent implements OnInit {
   });
 
   dataSource = new MatTableDataSource<any>();
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   order: Order = new Order();
   items: Item[] = [];
@@ -52,6 +56,7 @@ export class ItemsComponent implements OnInit {
     private ordersService: OrdersService,
     private itemsService: ItemsService,
     private sectorsService: SectorsService,
+    private departmentService: DepartmentsService,
     private changeDetectorRefs: ChangeDetectorRef
   ) {
     this.route.queryParams.subscribe(params => {
@@ -63,6 +68,7 @@ export class ItemsComponent implements OnInit {
   ngOnInit(): void {
     this.getOrder();
     this.getSectors();
+    this.getDepartments();
 
     this.selectedProduct = '1';
 
@@ -72,6 +78,8 @@ export class ItemsComponent implements OnInit {
     this.secondFormGroup = this.formBuilder.group({
       secondCtrl: ['', Validators.required]
     });
+
+    this.dataSource.paginator = this.paginator;
   }
 
   openItemModal() {
@@ -106,16 +114,16 @@ export class ItemsComponent implements OnInit {
   }
 
   getDepartments() {
-    this.ordersService.getOrder(this.order.id)
-      .subscribe((res: Order) => {
-        this.order = res;
+    this.departmentService.findAll()
+      .subscribe((res: Department[]) => {
+        this.departments = res;
         this.isLoading = false;
       },
         error => this.isLoading = false
       );
   }
 
-  getSectors(){
+  getSectors() {
     this.sectorsService.findAll()
       .subscribe((res: Sector[]) => {
         this.sectors = res;
@@ -140,16 +148,39 @@ export class ItemsComponent implements OnInit {
 
       const itemList = {
           sectorName: this.sectors.find(sector => sector.id === sectorId).name.toUpperCase(),
-          depName: this.sectors.find(dep => dep.id === departmentId).name.toUpperCase(),
+          depName: this.departments.find(dep => dep.id === departmentId).name.toUpperCase(),
           productName: this.products.find(prod => prod.id === productId).name.toUpperCase(),
           ...item
       };
 
       this.list.push(itemList);
+      this.setOrderTotal();
       this.changeDetectorRefs.detectChanges();
 
       this.dataSource.data = this.list;
+      this.dataSource.paginator = this.paginator;
     }
+  }
+
+  pickupDepartment(event) {
+    const { value: sectorId} = event;
+
+    if (!sectorId) {
+      return null;
+    }
+
+    const depId = this.sectors.find(sec => sec.id === sectorId).departmentId;
+
+    this.selectedDepartment = this.departments.find(dep => dep.id === depId).id;
+  }
+
+  setOrderTotal() {
+    this.order.total = 0;
+
+    this.items.map(item => {
+      const productValue = this.products.find(prod => prod.id === item.productId).value;
+      this.order.total += (item.quantity * productValue);
+    });
   }
 
   getSectorName(id) {

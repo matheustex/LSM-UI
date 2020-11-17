@@ -10,7 +10,7 @@
   </mat-card-header>
 </mat-card>
 
-<table mat-table [dataSource]="orders" class="mat-elevation-z8">
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
   <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
@@ -23,7 +23,7 @@
 
   <!-- Name Column -->
   <ng-container matColumnDef="Day">
-    <th mat-header-cell *matHeaderCellDef> DIA </th>
+    <th mat-header-cell *matHeaderCellDef> DATA </th>
     <td mat-cell *matCellDef="let element"> {{element.related | date:'dd/mm/yyyy'}} </td>
   </ng-container>
 
@@ -36,9 +36,23 @@
   <!-- Symbol Column -->
   <ng-container matColumnDef="Status">
     <th mat-header-cell *matHeaderCellDef> STATUS </th>
-    <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+    <td mat-cell *matCellDef="let element">
+      <mat-chip-list aria-label="Fish selection">
+        <div *ngIf="element.status === 'NEW'">
+          <mat-chip color="warn">ABERTA</mat-chip>
+        </div>
+        <div *ngIf=" element.status==='PENDING'">
+          <mat-chip color="accent">PENDENTE</mat-chip>
+        </div>
+        <div *ngIf="element.status === 'CLOSED'">
+          <mat-chip color="primary">APROVADA</mat-chip>
+        </div>
+      </mat-chip-list>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row class="pointer" *matRowDef="let row; columns: displayedColumns;" [routerLink]="[row.id, 'items']"></tr>
 </table>
+
+<mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>

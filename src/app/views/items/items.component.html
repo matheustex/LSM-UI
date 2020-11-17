@@ -5,6 +5,15 @@
       <mat-card-subtitle>Visualização das planilhas diárias e controle</mat-card-subtitle>
     </mat-card-header>
 
+    <mat-card-header class="ml-20 mr-20">
+      <mat-card-title>Data</mat-card-title>
+      <mat-card-subtitle>{{order.related | date:'dd/mm/yyyy' }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-header class="mr-10">
+      <mat-card-title>Total</mat-card-title>
+      <mat-card-subtitle>{{order.total | currency:'BRL'}}</mat-card-subtitle>
+    </mat-card-header>
     <span class="fill-remaining-space"></span>
     <a [routerLink]="['new']">
       <button mat-raised-button color="primary" class="pb-2 pt-2">FECHAR</button>
@@ -24,64 +33,50 @@
       <ng-template matStepLabel>Fechada</ng-template>
     </mat-step>
   </mat-horizontal-stepper>
-
-  <div class="row mt-10">
-    <mat-card-header class="mr-10">
-      <mat-card-title>Data</mat-card-title>
-      <mat-card-subtitle>{{order.related | date:'dd/mm/yyyy' }}</mat-card-subtitle>
-    </mat-card-header>
-
-    <mat-card-header class="mr-10">
-      <mat-card-title>Quantidade</mat-card-title>
-      <mat-card-subtitle>{{items.length }} </mat-card-subtitle>
-    </mat-card-header>
-
-    <mat-card-header class="mr-10">
-      <mat-card-title>Total</mat-card-title>
-      <mat-card-subtitle>{{order.total | currency:'BRL'}}</mat-card-subtitle>
-    </mat-card-header>
-  </div>
 </mat-card>
 
 <div [formGroup]="itemForm">
   <mat-card>
-    <mat-form-field class="full-width mr-2">
-      <mat-label>Produto</mat-label>
-      <mat-select [(ngModel)]="selectedProduct" formControlName="productId">
-        <mat-option *ngFor="let prod of products" [value]="prod.id">
-          {{prod.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="row">
+      <mat-form-field class="full-width mr-2">
+        <mat-label>Produto</mat-label>
+        <mat-select [(ngModel)]="selectedProduct" formControlName="productId">
+          <mat-option *ngFor="let prod of products" [value]="prod.id">
+            {{prod.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field class="full-width mr-2">
-      <mat-label>Quantidade</mat-label>
-      <input matInput placeholder="Quantidade" formControlName="quantity" required>
-      <mat-error>
-        O campo nome é <strong>obrigatório</strong>
-      </mat-error>
-    </mat-form-field>
+      <mat-form-field class="full-width mr-2">
+        <mat-label>Quantidade</mat-label>
+        <input matInput placeholder="Quantidade" formControlName="quantity" required>
+        <mat-error>
+          O campo nome é <strong>obrigatório</strong>
+        </mat-error>
+      </mat-form-field>
 
-    <mat-form-field class="full-width mr-2">
-      <mat-label>Setor</mat-label>
-      <mat-select [(ngModel)]="selectedSector" formControlName="sectorId">
-        <mat-option *ngFor="let sector of sectors" [value]="sector.id">
-          {{sector.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field class="full-width mr-2">
+        <mat-label>Setor</mat-label>
+        <mat-select [(ngModel)]="selectedSector" (selectionChange)="pickupDepartment($event)"
+          formControlName="sectorId">
+          <mat-option *ngFor="let sector of sectors" [value]="sector.id">
+            {{sector.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field class="full-width mr-4">
-      <mat-label>Departamento</mat-label>
-      <mat-select [(ngModel)]="selectedDepartment" formControlName="departmentId">
-        <mat-option *ngFor="let dep of sectors" [value]="dep.id">
-          {{dep.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field class="full-width mr-4">
+        <mat-label>Departamento</mat-label>
+        <mat-select [(ngModel)]="selectedDepartment" formControlName="departmentId">
+          <mat-option *ngFor="let dep of departments" [value]="dep.id">
+            {{dep.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <span class="fill-remaining-space"></span>
-    <button (click)="onSubmit()" mat-raised-button color="primary" class="pb-2 pt-2">NOVO ITEM</button>
+      <span class="fill-remaining-space"></span>
+      <button (click)="onSubmit()" mat-raised-button color="primary" class="pb-2 pt-2">NOVO ITEM</button>
+    </div>
   </mat-card>
 </div>
 
@@ -110,6 +105,8 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row class="pointer" *matRowDef="let row; columns: displayedColumns;" [routerLink]="[row.id, 'items']"></tr>
 </table>
+
+<mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
 
 <mat-card *ngIf="isLoading" class="justify-content-center">
   <mat-progress-spinner color="primary" mode="indeterminate">
