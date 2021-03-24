@@ -15,8 +15,11 @@
       <mat-card-subtitle>{{order.total | currency:'BRL'}}</mat-card-subtitle>
     </mat-card-header>
     <span class="fill-remaining-space"></span>
-    <a [routerLink]="['new']">
-      <button mat-raised-button color="primary" class="pb-2 pt-2">FECHAR</button>
+    <a>
+      <button mat-raised-button color="primary" class="pb-2 pt-2" *ngIf="order.status === 'NEW'"
+        (click)="close()">FECHAR</button>
+      <button mat-raised-button color="primary" class="pb-2 pt-2" *ngIf="order.status === 'PENDING'"
+        (click)="approve()">APROVAR</button>
     </a>
   </div>
 </mat-card>

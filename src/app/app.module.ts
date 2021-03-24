@@ -12,13 +12,15 @@ import { ItemsComponent } from './views/items/items.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OrdersNewComponent } from './views/orders/orders-new/orders-new.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { DepartmentsComponent } from './views/departments/departments/departments.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OrdersComponent,
     ItemsComponent,
-    OrdersNewComponent
+    OrdersNewComponent,
+    DepartmentsComponent
   ],
   imports: [
     MaterialModule,

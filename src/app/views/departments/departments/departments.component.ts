@@ -1,23 +1,24 @@
+import { DepartmentsService } from './../../../services/departments.service';
+import { Department } from './../../../shared/models/department';
 import { MatTableDataSource } from '@angular/material/table';
-import { Order } from './../../shared/models/order';
-import { OrdersService } from './../../services/orders.service';
 import { AfterViewInit, Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 
+
 @Component({
-  selector: 'app-orders',
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss']
+  selector: 'app-departments',
+  templateUrl: './departments.component.html',
+  styleUrls: ['./departments.component.scss']
 })
-export class OrdersComponent implements OnInit, AfterViewInit {
+export class DepartmentsComponent implements OnInit {
   orders: any = [];
-  displayedColumns: string[] = ['Name', 'Day', 'Total', 'Status'];
-  dataSource = new MatTableDataSource<Order>();
+  displayedColumns: string[] = ['Id', 'Name'];
+  dataSource = new MatTableDataSource<Department>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
-    private ordersService: OrdersService,
+    private ordersService: DepartmentsService,
     private changeDetectorRef: ChangeDetectorRef
   ) { }
 
@@ -27,7 +28,7 @@ export class OrdersComponent implements OnInit, AfterViewInit {
         this.dataSource = new MatTableDataSource(this.orders.data);
       });
   }
-  
+
   ngAfterViewInit() {
     this.changeDetectorRef.detectChanges();
     this.dataSource.paginator = this.paginator;

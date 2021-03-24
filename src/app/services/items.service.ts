@@ -10,7 +10,7 @@ import { GenericService } from './generic.service';
   providedIn: 'root'
 })
 
-export class ItemsService extends GenericService<Item, number> {
+export class ItemsService extends GenericService<Item, string> {
 
   constructor(protected http: HttpClient) {
     super(http, environment.itemsApi);

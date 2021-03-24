@@ -65,6 +65,11 @@ export class NavComponent implements OnInit {
         icon: 'assignment'
       },
       {
+        title: 'Departamentos',
+        route: 'departments',
+        icon: 'assignment'
+      },
+      {
         title: 'Configurações',
         route: 'items',
         icon: 'assignment'

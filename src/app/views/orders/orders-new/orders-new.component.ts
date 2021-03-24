@@ -39,7 +39,7 @@ export class OrdersNewComponent implements OnInit {
       order.name = name;
       order.note = note;
 
-      return this.ordersService.createOrder(order)
+      return this.ordersService.save(order)
         .pipe(
           tap(() =>
             this.snackBar.open('Planilha iniciada com sucesso')

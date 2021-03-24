@@ -7,7 +7,7 @@ import { GenericService } from './generic.service';
 @Injectable({
   providedIn: 'root',
 })
-export class DepartmentsService extends GenericService<Department, number> {
+export class DepartmentsService extends GenericService<Department, string> {
 
   constructor(protected http: HttpClient) {
     super(http, environment.departmentsApi);

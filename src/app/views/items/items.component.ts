@@ -94,7 +94,7 @@ export class ItemsComponent implements OnInit {
   }
 
   getOrder() {
-    this.ordersService.getOrder(this.order.id)
+    this.ordersService.findOne(this.order.id)
       .subscribe((res: Order) => {
         this.order = res;
         this.isLoading = false;
@@ -144,7 +144,7 @@ export class ItemsComponent implements OnInit {
       item.departmentId = departmentId;
       item.sectorId = sectorId;
       item.productId = productId;
-      this.items.push(item);
+      this.order.items.push(item);
 
       const itemList = {
           sectorName: this.sectors.find(sector => sector.id === sectorId).name.toUpperCase(),
@@ -170,14 +170,13 @@ export class ItemsComponent implements OnInit {
     }
 
     const depId = this.sectors.find(sec => sec.id === sectorId).departmentId;
-
     this.selectedDepartment = this.departments.find(dep => dep.id === depId).id;
   }
 
   setOrderTotal() {
     this.order.total = 0;
 
-    this.items.map(item => {
+    this.order.items.map(item => {
       const productValue = this.products.find(prod => prod.id === item.productId).value;
       this.order.total += (item.quantity * productValue);
     });
@@ -186,6 +185,15 @@ export class ItemsComponent implements OnInit {
   getSectorName(id) {
     console.log('render');
     return this.sectors.find(sector => sector.id === id).name;
+  }
+
+  close() {
+    this.order.status = 'PENDING';
+    this.ordersService.update(this.order.id, this.order).subscribe(x => this.isLoading = true);
+  }
+
+  approve() {
+    
   }
 
 }

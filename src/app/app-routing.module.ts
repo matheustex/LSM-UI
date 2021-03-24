@@ -1,3 +1,4 @@
+import { DepartmentsComponent } from './views/departments/departments/departments.component';
 import { OrdersNewComponent } from './views/orders/orders-new/orders-new.component';
 import { ItemsComponent } from './views/items/items.component';
 import { OrdersComponent } from './views/orders/orders.component';
@@ -8,7 +9,8 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   { path: 'orders', component: OrdersComponent },
   { path: 'orders/new', component: OrdersNewComponent },
-  { path: 'orders/:id/items', component: ItemsComponent }
+  { path: 'orders/:id/items', component: ItemsComponent },
+  { path: 'departments', component: DepartmentsComponent },
 ];
 
 @NgModule({
